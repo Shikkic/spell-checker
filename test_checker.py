@@ -21,10 +21,10 @@ def test_edit_one():
   assert checker.edit_distance_one('cat') == edits
 
 def test_known_edit_one():
-  assert len(checker.known_edit_distance_one('cat')) == 15
+  assert len(checker.known_edit_distance_one('cat')) == 25
   
 def test_known_edit_two():
-  assert len(checker.known_edit_distance_two('cat')) == 149
+  assert len(checker.known_edit_distance_two('cat')) == 239
 
 def test_known():
   assert checker.known(['dog','cat','wereafasfasdf']) == {'dog','cat'}
