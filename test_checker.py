@@ -23,3 +23,15 @@ def test_known_edit_two():
 
 def test_known():
   assert checker.known(['dog','cat','wereafasfasdf']) == {'dog','cat'}
+
+def test_correct_knowns():
+  assert checker.correct('chair') == 'chair'
+
+def test_correct_dist_one():
+  assert checker.correct('chiar') == 'chair'
+
+def test_correct_dist_two():
+  assert checker.correct('chaire') == 'chair'
+
+def test_correct_unknown():
+  assert checker.correct('asdfasghaguhapefhsahuapsas') == 'asdfasghaguhapefhsahuapsas'
