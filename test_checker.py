@@ -1,5 +1,7 @@
 import pytest
-import checker
+from checker import Checker
+
+checker = Checker()
 
 def test_words():
   s = 'Hello World!'
