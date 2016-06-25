@@ -7,6 +7,7 @@ def app():
 
 @pytest.fixture
 def test_client(app):
+  app.config["TESTING"]= True
   return app.test_client()
 
 def test_title(test_client):
@@ -15,4 +16,7 @@ def test_title(test_client):
 
 def test_text_box(test_client):
   response = test_client.get("/")
+  assert "Write something here to have it spell checked!" in response.data.decode("utf-8")
+
+
   
