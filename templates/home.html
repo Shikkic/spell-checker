@@ -10,13 +10,12 @@
     <header>
       <h1 class=title>Check Yo Self</h1>
     </header>
-
-    <form action="{{ url_for('home') }}", method="post">
-      <textarea name="input" id="textarea" cols="50" rows="5">
-        {{ text }}
-      </textarea>
-      <input type="submit" name="button" id="button" value="Send">
-    </form>
+    <div class="textbox">
+      <form action="{{ url_for('home') }}", method="post">
+        <textarea name="input" class="box" rows="20" cols="100">{{ text }}</textarea>
+        <input type="submit" name="button" id="button" value="Send">
+      </form>
+    </div>
   </body>
 
 </html>
