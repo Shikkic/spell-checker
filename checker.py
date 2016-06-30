@@ -1,4 +1,4 @@
-import re, collections
+import re, collections, spacy
 
 class Checker:
 
@@ -6,8 +6,15 @@ class Checker:
     self.NWORDS = self.train(self.words(open('corpus.txt').read()))
     self.alphabet = 'abcdefghijklmnopqrstuvwxyz'
 
+  def bigrams(self, text):
+    l = []
+    for i in range(len(text) - 1):
+      l.append((text[i], text[i+1]))
+    return l
+      
+
   def words(self, text):
-    return re.findall('[a-z]+', text.lower())
+    return re.findall('[a-z\']+', text.lower())
 
   def train(self, features):
     model = collections.defaultdict(lambda:1)

@@ -8,6 +8,11 @@ def test_words():
   words = checker.words(s)
   assert words == ["hello", "world"]
 
+def test_bigrams():
+  s = checker.words("Hello World!, What's up?")
+  bigrams = checker.bigrams(s)
+  assert bigrams == [("hello", "world"), ("world", "what's"), ("what's", "up")]
+
 def test_train():
   l = ['hello', 'world']
   model = checker.train(l)
@@ -24,7 +29,7 @@ def test_known_edit_one():
   assert len(checker.known_edit_distance_one('cat')) == 25
   
 def test_known_edit_two():
-  assert len(checker.known_edit_distance_two('cat')) == 239
+  assert len(checker.known_edit_distance_two('cat')) == 236
 
 def test_known():
   assert checker.known(['dog','cat','wereafasfasdf']) == {'dog','cat'}
