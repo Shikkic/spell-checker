@@ -13,6 +13,11 @@ def test_bigrams():
   bigrams = checker.bigrams(s)
   assert bigrams == [("hello", "world"), ("world", "what's"), ("what's", "up")]
 
+def test_trigrams():
+  s = checker.words("The quick brown fox")
+  trigrams = checker.trigrams(s)
+  assert trigrams == [("the","quick","brown"), ("quick","brown","fox")]
+
 def test_train():
   l = ['hello', 'world']
   model = checker.train(l)

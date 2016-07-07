@@ -1,4 +1,4 @@
-import re, collections, spacy
+import re, collections
 
 class Checker:
 
@@ -11,8 +11,13 @@ class Checker:
     for i in range(len(text) - 1):
       l.append((text[i], text[i+1]))
     return l
-      
 
+  def trigrams(self, text):
+    l = []
+    for i in range(len(text) - 2):
+      l.append((text[i], text[i+1], text[i+2]))
+    return l
+      
   def words(self, text):
     return re.findall('[a-z\']+', text.lower())
 
