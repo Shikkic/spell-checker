@@ -2,6 +2,7 @@ import pytest
 from ..lib.checker import Checker
 
 checker = Checker()
+checker.train()
 
 def test_words():
   s = 'Hello World!'
@@ -18,9 +19,9 @@ def test_trigrams():
   trigrams = checker.trigrams(s)
   assert trigrams == [("^", "the", "quick"), ("the","quick","brown"), ("quick","brown","fox"), ("brown", "fox", "$")]
 
-def test_train():
+def test_train_model():
   l = ['hello', 'world']
-  model = checker.train(l)
+  model = checker.train_model(l)
   assert model['hello'] == 2
   assert model['world'] == 2
   assert model['moon'] == 1
@@ -29,14 +30,14 @@ def test_train():
 def test_train_bigrams():
   s = "Hello World!, What's up?"
   l = checker.bigrams(s)
-  model = checker.train(l)
+  model = checker.train_model(l)
   assert model[("^", "hello")] == 2
   assert model[("april", "moon")] == 1
 
 def test_train_trigrams():
   s = "The quick brown fox"
   l = checker.trigrams(s)
-  model = checker.train(l)
+  model = checker.train_model(l)
   assert model[("^", "the", "quick")] == 2
   assert model[("a", "b", "c")] == 1
 

@@ -2,15 +2,17 @@ import re, collections, os
 
 class Checker:
 
-  def __init__(self):
-    corpus = open(os.path.join('data', 'corpus.txt')).read()
-    word_list = self.words(corpus)
-    bigram_list = self.bigrams(corpus)
-    trigram_list = self.trigrams(corpus)
-    self.word_count = self.train(word_list)
-    self.bigram_count = self.train(bigram_list)
-    self.trigram_count = self.train(trigram_list)
+  def __init__(self, corpus='corpus.txt'):
+    self.corpus = open(os.path.join('data', corpus)).read()
     self.alphabet = 'abcdefghijklmnopqrstuvwxyz'
+
+  def train(self):
+    word_list = self.words(self.corpus)
+    bigram_list = self.bigrams(self.corpus)
+    trigram_list = self.trigrams(self.corpus)
+    self.word_count = self.train_model(word_list)
+    self.bigram_count = self.train_model(bigram_list)
+    self.trigram_count = self.train_model(trigram_list)
 
   def bigrams(self, text):
     l = []
@@ -33,7 +35,7 @@ class Checker:
   def words(self, text):
     return re.findall('[a-z\']+', text.lower())
 
-  def train(self, features):
+  def train_model(self, features):
     model = collections.defaultdict(lambda:1)
     for f in features:
       model[f]+= 1
