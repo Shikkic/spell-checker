@@ -14,9 +14,9 @@ def test_bigram():
   assert bigrams == [("^", "hello"),("hello", "world"), ("world", "what's"), ("what's", "up"), ("up", "$")]
 
 def test_trigrams():
-  s = checker.words("The quick brown fox")
+  s = "The quick brown fox"
   trigrams = checker.trigrams(s)
-  assert trigrams == [("the","quick","brown"), ("quick","brown","fox")]
+  assert trigrams == [("^", "the", "quick"), ("the","quick","brown"), ("quick","brown","fox"), ("brown", "fox", "$")]
 
 def test_train():
   l = ['hello', 'world']
@@ -32,6 +32,13 @@ def test_train_bigrams():
   model = checker.train(l)
   assert model[("^", "hello")] == 2
   assert model[("april", "moon")] == 1
+
+def test_train_trigrams():
+  s = "The quick brown fox"
+  l = checker.trigrams(s)
+  model = checker.train(l)
+  assert model[("^", "the", "quick")] == 2
+  assert model[("a", "b", "c")] == 1
 
 def test_edit_one():
   edits = {'aat', 'act', 'at', 'bat', 'ca', 'caa', 'cab', 'cac', 'cad', 'cae', 'caf', 'cag', 'cah', 'cai', 'caj', 'cak', 'cal', 'cam', 'can', 'cao', 'cap', 'caq', 'car', 'cas', 'cat', 'catat', 'catcat', 'catt', 'cau', 'cav', 'caw', 'cax', 'cay', 'caz', 'cbt', 'cct', 'cdt', 'cet', 'cft', 'cgt', 'cht', 'cit', 'cjt', 'ckt', 'clt', 'cmt', 'cnt', 'cot', 'cpt', 'cqt', 'crt', 'cst', 'ct', 'cta', 'ctt', 'cut', 'cvt', 'cwt', 'cxt', 'cyt', 'czt', 'dat', 'eat', 'fat', 'gat', 'hat', 'iat', 'jat', 'kat', 'lat', 'mat', 'nat', 'oat', 'pat', 'qat', 'rat', 'sat', 'tat', 'uat', 'vat', 'wat', 'xat', 'yat', 'zat'}

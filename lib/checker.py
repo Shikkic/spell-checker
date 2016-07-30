@@ -6,8 +6,10 @@ class Checker:
     corpus = open(os.path.join('data', 'corpus.txt')).read()
     word_list = self.words(corpus)
     bigram_list = self.bigrams(corpus)
+    trigram_list = self.trigrams(corpus)
     self.word_count = self.train(word_list)
     self.bigram_count = self.train(bigram_list)
+    self.trigram_count = self.train(trigram_list)
     self.alphabet = 'abcdefghijklmnopqrstuvwxyz'
 
   def bigrams(self, text):
@@ -21,8 +23,11 @@ class Checker:
 
   def trigrams(self, text):
     l = []
-    for i in range(len(text) - 2):
-      l.append((text[i], text[i+1], text[i+2]))
+    lines = filter(None, re.split('[.?1\n]+', text))
+    for line in lines:
+      mod_line = ["^"] + self.words(line) + ["$"]
+      for i in range(len(mod_line) - 2):
+        l.append((mod_line[i], mod_line[i+1], mod_line[i+2]))
     return l
       
   def words(self, text):
