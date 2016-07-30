@@ -2,14 +2,21 @@ import re, collections, os
 
 class Checker:
 
-  def __init__(self):    
-    self.word_count = self.train(self.words(open(os.path.join('data', 'corpus.txt')).read()))
+  def __init__(self):
+    corpus = open(os.path.join('data', 'corpus.txt')).read()
+    word_list = self.words(corpus)
+    bigram_list = self.bigrams(corpus)
+    self.word_count = self.train(word_list)
+    self.bigram_count = self.train(bigram_list)
     self.alphabet = 'abcdefghijklmnopqrstuvwxyz'
 
   def bigrams(self, text):
     l = []
-    for i in range(len(text) - 1):
-      l.append((text[i], text[i+1]))
+    lines = filter(None, re.split('[.?1\n]+', text))
+    for line in lines:
+      mod_line = ["^"] + self.words(line) + ["$"]
+      for i in range(len(mod_line) - 1):
+        l.append((mod_line[i], mod_line[i+1]))
     return l
 
   def trigrams(self, text):

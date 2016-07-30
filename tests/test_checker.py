@@ -8,10 +8,10 @@ def test_words():
   words = checker.words(s)
   assert words == ["hello", "world"]
 
-def test_bigrams():
-  s = checker.words("Hello World!, What's up?")
+def test_bigram():
+  s = "Hello World!, What's up?"
   bigrams = checker.bigrams(s)
-  assert bigrams == [("hello", "world"), ("world", "what's"), ("what's", "up")]
+  assert bigrams == [("^", "hello"),("hello", "world"), ("world", "what's"), ("what's", "up"), ("up", "$")]
 
 def test_trigrams():
   s = checker.words("The quick brown fox")
@@ -25,6 +25,13 @@ def test_train():
   assert model['world'] == 2
   assert model['moon'] == 1
   assert model['hey'] == 1
+
+def test_train_bigrams():
+  s = "Hello World!, What's up?"
+  l = checker.bigrams(s)
+  model = checker.train(l)
+  assert model[("^", "hello")] == 2
+  assert model[("april", "moon")] == 1
 
 def test_edit_one():
   edits = {'aat', 'act', 'at', 'bat', 'ca', 'caa', 'cab', 'cac', 'cad', 'cae', 'caf', 'cag', 'cah', 'cai', 'caj', 'cak', 'cal', 'cam', 'can', 'cao', 'cap', 'caq', 'car', 'cas', 'cat', 'catat', 'catcat', 'catt', 'cau', 'cav', 'caw', 'cax', 'cay', 'caz', 'cbt', 'cct', 'cdt', 'cet', 'cft', 'cgt', 'cht', 'cit', 'cjt', 'ckt', 'clt', 'cmt', 'cnt', 'cot', 'cpt', 'cqt', 'crt', 'cst', 'ct', 'cta', 'ctt', 'cut', 'cvt', 'cwt', 'cxt', 'cyt', 'czt', 'dat', 'eat', 'fat', 'gat', 'hat', 'iat', 'jat', 'kat', 'lat', 'mat', 'nat', 'oat', 'pat', 'qat', 'rat', 'sat', 'tat', 'uat', 'vat', 'wat', 'xat', 'yat', 'zat'}
