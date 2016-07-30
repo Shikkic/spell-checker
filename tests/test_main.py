@@ -1,8 +1,8 @@
 import pytest, sys, os
 
-#sys.path.insert(0, os.path.abspath('..'))
+sys.path.insert(0, os.path.abspath('.'))
 
-from .. import main
+import main
 
 @pytest.fixture
 def app():
@@ -20,6 +20,3 @@ def test_title(test_client):
 def test_text_box(test_client):
   response = test_client.get("/")
   assert "Write something here to have it spell checked!" in response.data.decode("utf-8")
-
-
-  
