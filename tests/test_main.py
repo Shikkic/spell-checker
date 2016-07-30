@@ -1,5 +1,8 @@
-import pytest
-import main
+import pytest, sys, os
+
+#sys.path.insert(0, os.path.abspath('..'))
+
+from .. import main
 
 @pytest.fixture
 def app():

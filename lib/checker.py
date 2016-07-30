@@ -1,9 +1,10 @@
-import re, collections
+import re, collections, os
 
 class Checker:
 
   def __init__(self):
-    self.NWORDS = self.train(self.words(open('corpus.txt').read()))
+    
+    self.NWORDS = self.train(self.words(open(os.path.join('data', 'corpus.txt')).read()))
     self.alphabet = 'abcdefghijklmnopqrstuvwxyz'
 
   def bigrams(self, text):

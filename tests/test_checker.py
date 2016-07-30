@@ -1,5 +1,5 @@
 import pytest
-from checker import Checker
+from ..lib.checker import Checker
 
 checker = Checker()
 

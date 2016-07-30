@@ -1,5 +1,5 @@
 from flask import Flask, render_template, url_for, request
-from checker import Checker
+from lib.checker import Checker
 
 app = Flask(__name__)
 checker = Checker()
