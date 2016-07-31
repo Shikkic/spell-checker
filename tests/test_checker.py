@@ -73,4 +73,14 @@ def test_unigram_prob():
   wds = checker.words("echo bravo fox echo golf")
   checker.word_count = checker.train_model(wds)
   assert checker.unigram_prob('echo') == (3/9)
+
+def test_bigram_prob():
+  bgms = checker.bigrams("echo bravo fox echo bravo golf")
+  checker.bigram_count = checker.train_model(bgms)
+  assert checker.bigram_prob(("echo", "bravo")) == (3/13)
+
+def test_trigram_prob():
+  trgms = checker.trigrams("echo bravo fox echo bravo fox golf")
+  checker.trigram_count = checker.train_model(trgms)
+  assert checker.trigram_prob(("echo", "bravo", "fox")) == (3/13)
   

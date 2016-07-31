@@ -77,4 +77,11 @@ class Checker:
     prob = (self.word_count[word]/sum(self.word_count.values()))
     return prob
 
+  def bigram_prob(self, bigram):
+    prob = (self.bigram_count[bigram]/sum(self.bigram_count.values()))
+    return prob
+
+  def trigram_prob(self, trigram):
+    prob = (self.trigram_count[trigram]/sum(self.trigram_count.values()))
+    return prob
   
