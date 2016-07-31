@@ -18,7 +18,7 @@ class Trainer:
     self.data['trigram_probs'] = self.get_probs(trigram_count)
 
   def get_probs(self, count):
-    prob_dict = collections.defaultdict(lambda:1)
+    prob_dict = collections.defaultdict(lambda:0)
     denom = sum(count.values())
     for gram in count:
       prob_dict[gram] = (count[gram]/denom)

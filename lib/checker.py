@@ -1,3 +1,4 @@
+import re
 from .trainer import Trainer
 from pyxdameraulevenshtein import damerau_levenshtein_distance
 
@@ -34,16 +35,20 @@ class Checker:
   def calculate(self, word, before, after):
     rl = []
     for poss in self.word_count:
-      prob = (
-        self.unigram_prob(poss) *
-        self.bigram_prob((poss, after)) *
-        self.bigram_prob((before, poss)) *
-        self.trigram_prob((before, poss, after)) *
-        self.error_prob(word, poss))
+      prob = self.prob(word, poss, before, after)
       rl.append((poss, prob))
     rl.sort(key=lambda tup: tup[1])
     rl.reverse()
     return rl[:5]
+
+  def prob(self, word, poss, before, after):
+    r = (
+      self.unigram_prob(poss) +
+      self.bigram_prob((poss, after)) +
+      self.bigram_prob((before, poss)) +
+      self.trigram_prob((before, poss, after)) +
+      self.error_prob(word, poss))
+    return r
           
   def unigram_prob(self, word):
     prob = self.unigram_probs[word]
