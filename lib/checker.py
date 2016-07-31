@@ -1,5 +1,5 @@
 import re, collections, os
-import editdistance
+from pyxdameraulevenshtein import damerau_levenshtein_distance
 
 class Checker:
 
@@ -87,7 +87,7 @@ class Checker:
     return prob
 
   def error_prob(self, error, poss):
-    dist = editdistance.eval(error, poss)
+    dist = damerau_levenshtein_distance(error, poss)
     prob = (1/(2**dist))
     return prob
   
