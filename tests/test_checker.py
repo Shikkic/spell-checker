@@ -83,4 +83,8 @@ def test_trigram_prob():
   trgms = checker.trigrams("echo bravo fox echo bravo fox golf")
   checker.trigram_count = checker.train_model(trgms)
   assert checker.trigram_prob(("echo", "bravo", "fox")) == (3/13)
+
+def test_error_prob():
+  assert checker.error_prob('chair', 'chaire') == (1/2)
+  assert checker.error_prob('chair', 'caire') == (1/4)
   

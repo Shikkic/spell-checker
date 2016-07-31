@@ -1,4 +1,5 @@
 import re, collections, os
+import editdistance
 
 class Checker:
 
@@ -83,5 +84,10 @@ class Checker:
 
   def trigram_prob(self, trigram):
     prob = (self.trigram_count[trigram]/sum(self.trigram_count.values()))
+    return prob
+
+  def error_prob(self, error, poss):
+    dist = editdistance.eval(error, poss)
+    prob = (1/(2**dist))
     return prob
   
