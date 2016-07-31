@@ -4,7 +4,7 @@ from pyxdameraulevenshtein import damerau_levenshtein_distance
 
 class Checker:
   def __init__(self, trainer=Trainer):
-    trainer = Trainer()
+    trainer = trainer()
     data = trainer.data
     self.word_count = data['word_count']
     self.unigram_probs = data['unigram_probs']
@@ -42,12 +42,12 @@ class Checker:
     return rl[:5]
 
   def prob(self, word, poss, before, after):
-    r = (
-      self.unigram_prob(poss) +
-      self.bigram_prob((poss, after)) +
-      self.bigram_prob((before, poss)) +
-      self.trigram_prob((before, poss, after)) +
-      self.error_prob(word, poss))
+    a, b, c, d, e = 1, 1, 1, 1, 1
+    r = ((a * self.unigram_prob(poss)) +
+         (b * self.bigram_prob((poss, after))) +
+         (c * self.bigram_prob((before, poss))) +
+         (d * self.trigram_prob((before, poss, after))) +
+         (e * self.error_prob(word, poss)))
     return r
           
   def unigram_prob(self, word):
