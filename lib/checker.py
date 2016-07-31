@@ -50,14 +50,31 @@ class Checker:
     return set(deletes + transposes + replace + inserts)
 
   def known_edit_distance_one(self, word):
-    return (self.known(self.edit_distance_one(word)))
+    return (self.knowns(self.edit_distance_one(word)))
 
   def known_edit_distance_two(self, word):
     return set(e2 for e1 in self.edit_distance_one(word) for e2 in self.edit_distance_one(e1) if e2 in self.word_count)
 
-  def known(self, words):
+  def knowns(self, words):
     return set(w for w in words if w in self.word_count)
 
+  def is_known(self, word):
+    return word in self.word_count
+
   def correct(self, word):
-    candidates = self.known([word]) or self.known_edit_distance_one(word) or self.known_edit_distance_two(word) or [word]
+    candidates = self.knowns([word]) or self.known_edit_distance_one(word) or self.known_edit_distance_two(word) or [word]
     return max(candidates, key=self.word_count.get)
+
+  def check(self, sentence):
+    #for each incorrect word:
+    #  for each known word:
+    #    poss += (correction, (unigram prob)*(bigram prob)*(trigram prob)*(error prob))
+    #    some kind of cut off?
+    #return top five possibilities
+    pass
+
+  def unigram_prob(self, word):
+    prob = (self.word_count[word]/sum(self.word_count.values()))
+    return prob
+
+  

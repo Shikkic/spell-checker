@@ -51,8 +51,11 @@ def test_known_edit_one():
 def test_known_edit_two():
   assert len(checker.known_edit_distance_two('cat')) == 236
 
-def test_known():
-  assert checker.known(['dog','cat','wereafasfasdf']) == {'dog','cat'}
+def test_knowns():
+  assert checker.knowns(['dog','cat','wereafasfasdf']) == {'dog','cat'}
+
+def test_is_known():
+  assert checker.is_known('dog') == True
 
 def test_correct_knowns():
   assert checker.correct('chair') == 'chair'
@@ -65,3 +68,9 @@ def test_correct_dist_two():
 
 def test_correct_unknown():
   assert checker.correct('asdfasghaguhapefhsahuapsas') == 'asdfasghaguhapefhsahuapsas'
+
+def test_unigram_prob():
+  wds = checker.words("echo bravo fox echo golf")
+  checker.word_count = checker.train_model(wds)
+  assert checker.unigram_prob('echo') == (3/9)
+  
