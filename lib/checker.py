@@ -14,6 +14,16 @@ class Checker:
     self.word_count = self.train_model(word_list)
     self.bigram_count = self.train_model(bigram_list)
     self.trigram_count = self.train_model(trigram_list)
+    self.unigram_probs = self.get_probs(self.word_count)
+    self.bigram_probs = self.get_probs(self.bigram_count)
+    self.trigram_probs = self.get_probs(self.trigram_count)
+
+  def get_probs(self, count):
+    prob_dict = collections.defaultdict(lambda:1)
+    denom = sum(count.values())
+    for gram in count:
+      prob_dict[gram] = (count[gram]/denom)
+    return prob_dict
 
   def bigrams(self, text):
     l = []
@@ -66,24 +76,50 @@ class Checker:
     candidates = self.knowns([word]) or self.known_edit_distance_one(word) or self.known_edit_distance_two(word) or [word]
     return max(candidates, key=self.word_count.get)
 
-  def check(self, sentence):
+  def check_sentence(self, sentence):
     #for each incorrect word:
     #  for each known word:
     #    poss += (correction, (unigram prob)*(bigram prob)*(trigram prob)*(error prob))
     #    some kind of cut off?
     #return top five possibilities
-    pass
+    sentence_list = ["^"] + self.words(sentence) + ["$"]
+    corrections_list = []
+    for i, word in enumerate(sentence_list):
+      if self.is_known(word) or word in ["^", "$"]:
+        continue
+      else:
+        before = sentence_list[i-1]
+        after = sentence_list[i+1]
+        corrections_list.append(self.calculate(word, before, after))
+    return corrections_list
+
+  def calculate(self, word, before, after):
+    rl = []
+    for poss in self.word_count:
+      prob = (
+        self.unigram_prob(poss) *
+        self.bigram_prob((poss, after)) *
+        self.bigram_prob((before, poss)) *
+        self.trigram_prob((before, poss, after)) *
+        self.error_prob(word, poss))
+      rl.append((poss, prob))
+    rl.sort(key=lambda tup: tup[1])
+    return rl[:5]
+          
 
   def unigram_prob(self, word):
-    prob = (self.word_count[word]/sum(self.word_count.values()))
+    #prob = (self.word_count[word]/sum(self.word_count.values()))
+    prob = self.unigram_probs[word]
     return prob
 
   def bigram_prob(self, bigram):
-    prob = (self.bigram_count[bigram]/sum(self.bigram_count.values()))
+    #prob = (self.bigram_count[bigram]/sum(self.bigram_count.values()))
+    prob = self.bigram_probs[bigram]
     return prob
 
   def trigram_prob(self, trigram):
-    prob = (self.trigram_count[trigram]/sum(self.trigram_count.values()))
+    #prob = (self.trigram_count[trigram]/sum(self.trigram_count.values()))
+    prob = self.trigram_probs[trigram]
     return prob
 
   def error_prob(self, error, poss):
